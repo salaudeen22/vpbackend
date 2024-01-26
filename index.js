@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 
 app.use((req, res, next) => {
 
-    res.setHeader("Access-Control-Allow-Origin","https://65b3ee975703dc3a68373ed4--reliable-lollipop-23206b.netlify.app/");
+    res.setHeader("Access-Control-Allow-Origin","http://localhost:3000/");
   
 
   res.header(
