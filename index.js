@@ -12,12 +12,9 @@ app.get("/", (req, res) => {
 });
 
 app.use((req, res, next) => {
-  const allowedOrigins = ["http://localhost:3000", "https://blahblue.onrender.com"];
-  const origin = req.headers.origin;
 
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
+    res.setHeader("Access-Control-Allow-Origin","https://blahblue.onrender.com");
+  
 
   res.header(
     "Access-Control-Allow-Headers",
