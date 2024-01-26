@@ -3,23 +3,16 @@ const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 4000;
 
-const mongoose = require("mongoose");
-const mongoDBConnection = process.env.MONGODB_URI;
+const mongoDB = require("./db");
 
-mongoose.connect(mongoDBConnection, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoDB();
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-// Error Handling Middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something went wrong!');
-});
-
-// CORS Middleware
 app.use((req, res, next) => {
-  const allowedOrigins = process.env.ALLOWED_ORIGINS.split(",");
+  const allowedOrigins = ["http://localhost:3000", "https://blahblue.onrender.com"];
   const origin = req.headers.origin;
 
   if (allowedOrigins.includes(origin)) {
@@ -34,20 +27,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Hello World route
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-// Modular Routing
-const createUserRoute = require("./routes/CreateUser");
-const displayDataRoute = require("./routes/DisplayData");
-const orderDataRoute = require("./routes/OrderData");
-
-app.use("/api", createUserRoute);
-app.use("/api", displayDataRoute);
-app.use("/api", orderDataRoute);
+app.use(express.json());
+app.use("/api", require("./routes/CreateUser"));
+app.use("/api", require("./routes/DisplayData"));
+app.use("/api", require("./routes/OrderData"));
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Example app listening on port ${port}`);
 });
